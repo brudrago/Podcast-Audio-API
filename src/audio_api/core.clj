@@ -6,7 +6,7 @@
 
 (defroutes app-routes
 
-           (GET "/health" []
+           (GET "/bd-audio" []
                 {:status 200
                  :body   "{\"status\":\"ok\"}"})
 
