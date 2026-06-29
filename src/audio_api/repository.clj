@@ -1,6 +1,6 @@
-(ns audio-api.db)
+(ns audio-api.repository)
 
-(defn get-episodes []
+(defn find-all-episodes []
   [{:id              "6d25c0d2-b42e-4e4b-a9dd-c8e3d42f8b7f"
     :title           "Introdução ao Flutter"
     :description     "Os primeiros passos para construir aplicativos Flutter."
