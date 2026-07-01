@@ -13,3 +13,8 @@
     :durationSeconds 1260
     :publishedAt     "2026-06-20T09:30:00Z"
     :coverImageUrl   "https://cdn.meupodcast.com/covers/clojure.png"}])
+
+(defn find-episode-by-id [id]
+  (->> (find-all-episodes)
+       (filter #(= (:id %) id))
+       first))
