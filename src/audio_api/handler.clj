@@ -1,7 +1,7 @@
 (ns audio-api.handler
   (:require
     [cheshire.core :as json]
-    [audio-api.repository :as repository]))
+    [audio-api.episodes.service :as service]))
 
 (defn- json-response [status body]
   {:status  status
@@ -12,10 +12,10 @@
   (json-response 200 {:status "ok"}))
 
 (defn get-episodes [_]
-  (json-response 200 {:episodes (repository/find-all-episodes)}))
+  (json-response 200 {:episodes (service/list-episodes)}))
 
 (defn get-episode-by-id [id]
-  (let [episode (repository/find-episode-by-id id)]
+  (let [episode (service/get-episode-by-id id)]
     (if episode
       (json-response 200 episode)
       (json-response 404 {:error "Episode not found"}))))

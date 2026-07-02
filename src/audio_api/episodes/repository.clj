@@ -8,7 +8,7 @@
     ["SELECT * FROM episodes ORDER BY published_at DESC"]))
 
 (defn find-by-id [id]
-  (db/query
+  (db/query-one
     ["SELECT * FROM episodes WHERE id = ?" id]))
 
 (defn create!
@@ -19,7 +19,7 @@
            audio-key
            published-at]}]
 
-  (db/query
+  (db/execute
     ["INSERT INTO episodes
       (id,
        title,
