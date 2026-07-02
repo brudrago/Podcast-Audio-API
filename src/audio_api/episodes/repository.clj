@@ -4,13 +4,11 @@
     [audio-api.database.connection :as db]))
 
 (defn find-all []
-  (jdbc/execute!
-    (db/get-datasource)
+  (db/query
     ["SELECT * FROM episodes ORDER BY published_at DESC"]))
 
 (defn find-by-id [id]
-  (jdbc/execute-one!
-    (db/get-datasource)
+  (db/query
     ["SELECT * FROM episodes WHERE id = ?" id]))
 
 (defn create!
@@ -21,8 +19,7 @@
            audio-key
            published-at]}]
 
-  (jdbc/execute-one!
-    (db/get-datasource)
+  (db/query
     ["INSERT INTO episodes
       (id,
        title,

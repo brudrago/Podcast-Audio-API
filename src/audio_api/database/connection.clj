@@ -1,9 +1,6 @@
 (ns audio-api.database.connection
   (:require [next.jdbc :as jdbc])
   (:import [com.zaxxer.hikari HikariDataSource]))
-(ns audio-api.database.connection
-  (:require [next.jdbc :as jdbc])
-  (:import [com.zaxxer.hikari HikariDataSource]))
 
 (def db-config
   {:jdbcUrl "jdbc:postgresql://localhost:5432/podcast_db"
@@ -21,8 +18,11 @@
 (defn get-datasource []
   @datasource)
 
-(defn execute! [sql-params]
+(defn query [sql-params]
   (jdbc/execute! (get-datasource) sql-params))
 
-(defn execute-one! [sql-params]
+(defn query-one [sql-params]
   (jdbc/execute-one! (get-datasource) sql-params))
+
+(defn execute [sql-params]
+  (jdbc/execute! (get-datasource) sql-params))
