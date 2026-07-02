@@ -19,3 +19,8 @@
     (if episode
       (json-response 200 episode)
       (json-response 404 {:error "Episode not found"}))))
+
+(defn create-episode [request]
+  (let [episode (:body request)
+        created (service/create-episode episode)]
+    (json-response 201 created)))
