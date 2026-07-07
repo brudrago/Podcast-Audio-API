@@ -21,7 +21,8 @@
       (json-response 200 (mapper/episode->response episode))
       (json-response 404 {:error "Episode not found"}))))
 
+
 (defn create-episode [request]
-  (let [episode (:body request)
+  (let [episode (mapper/request->episode (:body request))
         created (service/create-episode episode)]
     (json-response 201 (mapper/episode->response created))))

@@ -1,7 +1,10 @@
 (ns audio-api.episodes.service
-  (:require [audio-api.episodes.repository :as repository])
-  (:import (java.time LocalDateTime))
-  (:import (java.util UUID)))
+  (:require
+    [audio-api.episodes.repository :as repository]
+    [clojure.string :as str])
+  (:import
+    [java.util UUID]
+    [java.time LocalDateTime]))
 
 (defn list-episodes []
   (repository/find-all))

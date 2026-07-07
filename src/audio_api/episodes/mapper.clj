@@ -13,3 +13,11 @@
 
 (defn episodes->response [episodes]
   (map episode->response episodes))
+
+(defn request->episode [request]
+  {:id               (:id request)
+   :title            (:title request)
+   :description      (:description request)
+   :duration-seconds (:durationSeconds request)
+   :audio-key        (:audioKey request)
+   :published-at     (:publishedAt request)})
