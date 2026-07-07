@@ -17,3 +17,4 @@ pom.xml.asc
 .idea/
 .DS_Store
 deps.edn
+.env

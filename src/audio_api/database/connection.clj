@@ -3,9 +3,9 @@
   (:import [com.zaxxer.hikari HikariDataSource]))
 
 (def db-config
-  {:jdbcUrl "jdbc:postgresql://localhost:5432/podcast_db"
-   :username "podcast_user"
-   :password "podcast_password"})
+  {:jdbcUrl  (System/getenv "DATABASE_URL")
+   :username (System/getenv "DATABASE_USER")
+   :password (System/getenv "DATABASE_PASSWORD")})
 
 (defonce datasource
          (delay

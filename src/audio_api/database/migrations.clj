@@ -4,12 +4,13 @@
 (def config
   {:store :database
    :migration-dir "migrations"
-   :db {:dbtype "postgresql"
-        :host "localhost"
-        :port 5432
-        :dbname "podcast_db"
-        :user "podcast_user"
-        :password "podcast_password"}})
+   :db {:dbtype   "postgresql"
+        :host     (System/getenv "DATABASE_HOST")
+        :port     (Integer/parseInt
+                    (or (System/getenv "DATABASE_PORT") "5432"))
+        :dbname   (System/getenv "DATABASE_NAME")
+        :user     (System/getenv "DATABASE_USER")
+        :password (System/getenv "DATABASE_PASSWORD")}})
 
 (defn migrate []
   (migratus/migrate config))
