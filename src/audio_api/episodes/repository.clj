@@ -8,13 +8,13 @@
 
 (defn find-by-id [id]
   (db/query-one
-    ["SELECT * FROM episodes WHERE id = ?::uuid" id]))
+    ["SELECT * FROM episodes WHERE id = ?" id]))
 
 (defn create!
   [{:keys [id title description duration-seconds audio-key published-at]}]
   (db/query-one
     ["INSERT INTO episodes
       (id, title, description, duration_seconds, audio_key, published_at)
-      VALUES (?::uuid, ?, ?, ?, ?, ?::timestamp)
+      VALUES (?, ?, ?, ?, ?, ?)
       RETURNING *"
      id title description duration-seconds audio-key published-at]))
