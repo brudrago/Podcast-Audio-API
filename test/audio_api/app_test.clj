@@ -55,3 +55,78 @@
         (is (= [{:id "episode-id"
                  :title "Episode"}]
                (:episodes body)))))))
+
+(deftest get-episode-by-id-route-test
+  (testing "GET /bd-audio/episode/:id returns episode"
+    (with-redefs [service/get-episode-by-id
+                  (fn [id]
+                    {:id id})
+
+                  mapper/episode->response
+                  (fn [episode]
+                    {:id (:id episode)
+                     :title "Episode"})]
+
+      (let [id "44444444-4444-4444-4444-444444444460"
+            request (mock/request :get
+                                  (str "/bd-audio/episode/" id))
+            response (app request)
+            body (parse-body response)]
+
+        (is (= 200 (:status response)))
+        (is (= id (:id body)))
+        (is (= "Episode" (:title body)))))))
+
+
+(deftest get-episode-by-id-not-found-route-test
+  (testing "GET /bd-audio/episode/:id returns 404 when episode does not exist"
+    (with-redefs [service/get-episode-by-id
+                  (fn [_] nil)]
+
+      (let [request
+            (mock/request
+              :get
+              "/bd-audio/episode/44444444-4444-4444-4444-444444444461")
+
+            response (app request)
+            body (parse-body response)]
+
+        (is (= 404 (:status response)))
+        (is (= "Episode not found" (:error body)))))))
+
+
+(deftest create-episode-route-test
+  (testing "POST /bd-audio/episodes returns 201"
+    (with-redefs [mapper/request->episode
+                  (fn [body]
+                    {:internal body})
+
+                  service/create-episode
+                  (fn [episode]
+                    {:created episode})
+
+                  mapper/episode->response
+                  (fn [_]
+                    {:id "44444444-4444-4444-4444-444444444462"
+                     :title "Created Episode"})]
+
+      (let [request-body
+            {:id "44444444-4444-4444-4444-444444444462"
+             :title "Created Episode"
+             :description "Episode created from route test"
+             :durationSeconds 300
+             :audioKey "episodes/6/audio.mp3"
+             :publishedAt "2026-07-07T20:00:00"}
+
+            request
+            (-> (mock/request :post "/bd-audio/episodes")
+                (mock/json-body request-body))
+
+            response (app request)
+            body (parse-body response)]
+
+        (is (= 201 (:status response)))
+        (is (= "44444444-4444-4444-4444-444444444462"
+               (:id body)))
+        (is (= "Created Episode"
+               (:title body)))))))
