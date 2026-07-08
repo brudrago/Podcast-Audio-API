@@ -130,3 +130,43 @@
                (:id body)))
         (is (= "Created Episode"
                (:title body)))))))
+
+(deftest get-episode-with-invalid-uuid-route-test
+  (testing "GET /bd-audio/episode/:id returns 400 for invalid UUID"
+    (let [request (mock/request
+                    :get
+                    "/bd-audio/episode/invalid-id")
+
+          response (app request)
+          body (parse-body response)]
+
+      (is (= 400 (:status response)))
+
+      (is (= "Invalid UUID"
+             (:error body))))))
+
+
+(deftest create-episode-with-empty-title-route-test
+  (testing "POST /bd-audio/episodes returns 400 when title is empty"
+    (let [request-body
+          {:id "44444444-4444-4444-4444-444444444463"
+           :title ""
+           :description "Invalid episode"
+           :durationSeconds 300
+           :audioKey "episodes/invalid/audio.mp3"
+           :publishedAt "2026-07-07T20:00:00"}
+
+          request
+          (-> (mock/request :post "/bd-audio/episodes")
+              (mock/json-body request-body))
+
+          response (app request)
+          body (parse-body response)]
+
+      (is (= 400 (:status response)))
+
+      (is (= "Title is required"
+             (:error body)))
+
+      (is (= "title"
+             (:field body))))))
