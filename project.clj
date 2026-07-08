@@ -9,7 +9,9 @@
                  [com.github.seancorfield/next.jdbc "1.3.1048"]
                  [org.postgresql/postgresql "42.7.4"]
                  [com.zaxxer/HikariCP "5.1.0"]
-                 [migratus "1.5.6"]]
+                 [migratus "1.5.6"]
+                 [ring/ring-mock "0.4.0"]]
+
   :main audio-api.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
